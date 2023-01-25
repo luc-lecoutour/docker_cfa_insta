@@ -1,35 +1,52 @@
 require('dotenv').config();
 const express = require('express');
-const app = express();
-
+const bodyParser = require('body-parser');
 const http = require('http');
 
-const port_serv = 8000//process.env.PORT_SERV;
+const app = express();
+app.use(bodyParser());
 const port_client = 8001//process.env.PORT_CLIENT;
 
-const hostname = 'server1'; // hostname adresse for server1
 
 app.get('/pong',(req, res) =>{
     res.statusCode = 200;
 
     res.setHeader('Content-Type', 'application/json');
-    res.json({'response':'server2 ping'});
+
+    res.send('server2...pong ok');
+
+    setTimeout( ()=>{
+        fetchBack();
+    },1000)
+
+})
+
+const fetchBack = () =>{
+
+    let data = JSON.stringify({
+        dest: 'server1',
+        message : 'ping'
+    });
 
     const options = {
-        hostname: hostname,
-        port: port_serv,
-        path: '/ping',
-        method: 'GET'
+        hostname: 'broker',
+        port: 8002,
+        path: '/send',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
     };
 
     let request = http.request(options, (res) => {
-        console.log(`statusCode: ${res.statusCode}, data from ${options.hostname}:${port_serv}`);
+        console.log(`statusCode: ${res.statusCode}, data from ${options.hostname}:${options.port}`);
 
-        res.on('data', (d) => {
-           process.stdout.write(d);
-
+        res.on('data', (data) => {
+            console.log(data.toString());
         });
     });
+
+    request.write(data);
 
     request.on('error', (error) => {
         console.error(error);
@@ -37,17 +54,12 @@ app.get('/pong',(req, res) =>{
 
     request.end();
 
-
-
-})
+}
 
 app.get('/',(req, res) =>{
     res.statusCode = 200;
-
     res.setHeader('Content-Type', 'text/plain');
     res.send('hello server2');
-
-
 })
 
 app.listen(port_client,() => {
