@@ -7,7 +7,7 @@ const port_client = 8001//process.env.PORT_CLIENT;
 const express = require('express');
 const app = express();
 
-const hostname = '172.17.0.2'; //hostname adresse for server2
+const hostname = 'server2'; //hostname adresse for server2
 
 
 

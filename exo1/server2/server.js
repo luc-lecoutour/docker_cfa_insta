@@ -7,7 +7,7 @@ const http = require('http');
 const port_serv = 8000//process.env.PORT_SERV;
 const port_client = 8001//process.env.PORT_CLIENT;
 
-const hostname = '172.17.0.3'; // hostname adresse for server1
+const hostname = 'server1'; // hostname adresse for server1
 
 app.get('/pong',(req, res) =>{
     res.statusCode = 200;
