@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY package.json package.json
 COPY package-lock.json package-lock.json
-COPY server.js .
+COPY server1.js .
 
 RUN npm install
 
-EXPOSE 8002
+EXPOSE 4567
 
-CMD [ "node", "server.js"]
+CMD [ "node", "server1.js"]

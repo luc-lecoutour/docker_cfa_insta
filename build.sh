@@ -1,14 +1,10 @@
 #!/bin/bash
 
-cd broker/
-docker build -t broker -f DockerFile .
 
-cd ../exo1/server1/
-docker build -t server1 -f DockerFile_server .
+docker build -t broker -f Dockerfilebroker .
 
-cd ../server2/
-docker build -t server2 -f DockerFile_client .
+docker build -t server1 -f Dockerfileserver1 .
 
+docker build -t server2 -f Dockerfileserver2 .
 
-
-
+docker build -t registry -f DockerfileRegistry .
